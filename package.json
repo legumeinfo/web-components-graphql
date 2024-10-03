@@ -51,7 +51,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-replace": "^6.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
