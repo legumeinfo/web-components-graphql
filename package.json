@@ -1,0 +1,78 @@
+{
+  "name": "@legumeinfo/web-components-graphql",
+  "version": "1.0.0",
+  "description": "A TypeScript library that provides code for usng LIS Web Components with the LIS GraphQL Server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/legumeinfo/web-components-graphql"
+  },
+  "bugs": {
+    "url": "https://github.com/legumeinfo/web-components-graphql/issues"
+  },
+  "homepage": "https://github.com/legumeinfo/web-components-graphql#readme",
+  "main": "lib/main.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/lib",
+    "/dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "rimraf lib",
+    "build:watch": "tsc --watch",
+    "clean": "npm run bundle:clean & npm run build:clean",
+    "lint": "npm run lint:eslint",
+    "lint:eslint": "eslint src/*.ts src/**/*.ts",
+    "lint:eslint-config-prettier": "eslint-config-prettier src/*.ts src/**/*.ts",
+    "format": "prettier src/*.ts src/**/*.ts --write",
+    "prepublish": "npm run clean && npm run build && npm run bundle",
+    "serve": "wds --watch",
+    "serve:prod": "MODE=prod npm run serve",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "bundle": "rollup -c rollup.config.js",
+    "bundle:clean": "rimraf dist",
+    "bundle:watch": "rollup -c -w",
+    "postinstall": "husky install",
+    "prepack": "pinst --disable",
+    "postpack": "pinst --enable"
+  },
+  "keywords": [
+    "graphql",
+    "typescript",
+    "web components",
+    "legumes",
+    "agbio",
+    "biology"
+  ],
+  "author": "Legume Information System",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/jest": "^29.5.12",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "@web/dev-server": "^0.4.5",
+    "@web/dev-server-legacy": "^2.1.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.5",
+    "pinst": "^3.0.0",
+    "prettier": "^3.2.4",
+    "rimraf": "^5.0.7",
+    "rollup": "^4.18.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "@legumeinfo/web-components":  "^1.4.0"
+  }
+}
