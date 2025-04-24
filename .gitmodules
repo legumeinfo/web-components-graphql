@@ -1,0 +1,3 @@
+[submodule "dep/web-components"]
+	path = dep/web-components
+	url = https://github.com/legumeinfo/web-components.git
