@@ -50,6 +50,7 @@
   "author": "Legume Information System",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@legumeinfo/web-components":  "file:dep/web-components",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
