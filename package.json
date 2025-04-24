@@ -35,6 +35,7 @@
     "bundle": "rollup -c rollup.config.js",
     "bundle:clean": "rimraf dist",
     "bundle:watch": "rollup -c -w",
+    "preinstall": "scripts/build-dependencies.cjs",
     "postinstall": "husky",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable"
