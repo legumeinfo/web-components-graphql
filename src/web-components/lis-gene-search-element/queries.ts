@@ -40,7 +40,7 @@ type GetOrganismsData = {
 };
 
 /**
- * Converts GraphQL `GetOrganismsData` into `LisGeneSearchFormData`.
+ * Shims GraphQL `GetOrganismsData` into `LisGeneSearchFormData`.
  * @param {GetOrganismsData} data - The data portion of the `GraphqlResponse` for the `getOrganismsQuery`.
  * @returns {LisGeneSearchFormData} The data to be used by the `LisGeneSearchElement` Web Component.
  */
@@ -83,7 +83,7 @@ function organismsDataToFormData(
 }
 
 /**
- * Queries the GraphQL server for form data and converts the result into Web Component data.
+ * Queries the GraphQL server for form data and shims the result into Web Component data.
  * This function should only be used as a method of `LisGraphqlWebComponentsMixin`.
  * @param {LisGeneSearchFormDataOptions} options - `LisGeneSearchFormDataFunction` options.
  * @returns {Promise<LisGeneSearchFormData>} A `Promise` that resolves to `LisGeneSearchFormData`.
@@ -172,7 +172,7 @@ type SearchGenesData = {
 };
 
 /**
- * Converts GraphQL `SearchGenesData` into `LisGeneSearchResults`.
+ * Shims GraphQL `SearchGenesData` into `LisGeneSearchResults`.
  * @param {SearchGenesData} data - The data portional of the `GraphqlResponse` for the `searchGenesQuery`.
  * @returns {LisGeneSearchResults} The data to be used by the `LisGeneSearchElement` Web Component.
  */
@@ -220,7 +220,7 @@ function genesDataToSearchResults(data: SearchGenesData): LisGeneSearchResults {
 }
 
 /**
- * Queries the GraphQL server for gene data and converts the result into Web Component data.
+ * Queries the GraphQL server for gene data and shims the result into Web Component data.
  * This function should only be used as a method of `LisGraphqlWebComponentsMixin`.
  * @param {LisGeneSearchData} queryData - The data from which GraphQL query variables will be derived.
  * @param {LisGeneSearchOptions} options - `LisGeneSearchFunction` options.

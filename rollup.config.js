@@ -11,7 +11,7 @@ import replace from '@rollup/plugin-replace';
 export default {
   input: 'lib/index.js',
   output: {
-    file: 'dist/web-component-graphql.min.js',
+    file: 'dist/web-components-graphql.min.js',
     format: 'esm',
   },
   onwarn(warning) {

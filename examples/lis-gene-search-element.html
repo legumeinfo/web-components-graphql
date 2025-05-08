@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <title>LIS Web-Components - &lt;lis-gene-search-element&gt;</title>
+    <!-- CSS framework -->
+    <link rel="stylesheet" type="text/css" href="../node_modules/uikit/dist/css/uikit.min.css">
+    <script src="../node_modules/uikit/dist/js/uikit.min.js"></script>
+    <!-- web components polyfills -->
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/lit/polyfill-support.js"></script>
+    <!-- web components -->
+    <script type="module" src="../node_modules/@legumeinfo/web-components/dist/web-components.min.js"></script>
+    <!-- GraphQL -->
+    <script type="importmap">
+      {
+        "imports": {
+          "lis-graphql": "../dist/web-components-graphql.min.js"
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="uk-container uk-container-expand">
+      <h1>&lt;lis-gene-search-element&gt;</h1>
+      <!-- the custom gene search element -->
+      <lis-gene-search-element
+        id="gene-search"
+        identifierExample="Glyma.13G357700"
+        descriptionExample="protein disulfide isomerase-like protein"
+        familyExample="L_HZ6G4Z"
+      ></lis-gene-search-element>
+      <lis-modal-element modalId="modal">
+        <lis-linkout-element id="linkouts"></lis-linkout-element>
+      </lis-modal-element>
+    </div>
+
+    <!-- set the search function by property because functions can't be set as attributes -->
+    <script type="module">
+
+      import { LisGraphqlWebComponents } from 'lis-graphql';
+
+      // instantiate the LIS GraphQL class
+      const uri = 'https://graphql.lis.ncgr.org/';
+      const graphql = new LisGraphqlWebComponents(uri);
+
+      // bind the form data function
+      const geneSearchElement = document.getElementById('gene-search');
+      geneSearchElement.formDataFunction = graphql.geneSearchFormDataFactory();
+
+      // bind the search function with middleware
+      //const modalId = 'test';
+      //const middleware = [
+      //    LisGraphqlWebComponents.middleware.geneSearch.geneIdentifierModalLinkFactory(modalId),
+      //    LisGraphqlWebComponents.middleware.geneSearch.locationModalLinkFactory(modalId),
+      //    LisGraphqlWebComponents.middleware.geneSearch.geneFamilyAssignmentsModalLinkFactory(modalId),
+      //    LisGraphqlWebComponents.middleware.geneSearch.panGeneSetsModalLinkFactory(modalId),
+      //  ];
+      const middleware = 
+          LisGraphqlWebComponents.middleware.geneSearch.allModalLinksFactory('modal');
+      geneSearchElement.searchFunction = graphql.geneSearchFunctionFactory(...middleware);
+
+      // bind the linkout function
+      const linkoutElement = document.getElementById('linkouts');
+      linkoutElement.linkoutFunction = graphql.linkoutFunctionFactory();
+
+      // wait for the modal slot to load before adding an event listener
+      window.onload = (event) => {
+        const modal = document.getElementById('modal');
+        modal.addEventListener('toggle', (event) => {
+          const [{$el: link}, ...uikitComponents] = event.detail;
+          const {type, ...linkoutData} = link.dataset;
+          linkoutElement.getLinkouts({type, linkoutData});
+        });
+      };
+
+    </script>
+
+  </body>
+
+</html>
