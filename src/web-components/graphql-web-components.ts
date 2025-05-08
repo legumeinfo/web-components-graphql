@@ -1,8 +1,10 @@
 import {LisGraphql, LisGraphqlConstructor} from '../graphql';
 import {
+  GeneSearchMiddleware,
   geneSearchFormData,
   geneSearchFunction,
-} from './lis-gene-search-element/queries';
+  geneSearchMiddleware,
+} from './lis-gene-search-element';
 import {
   linkoutFunction,
   linkoutFunctionGene,
@@ -22,14 +24,26 @@ export function LisGraphqlWebComponentsMixin<
   TBase extends LisGraphqlConstructor,
 >(Base: TBase) {
   return class LisGraphqlWebComponents extends Base {
+    static readonly middleware = {
+      geneSearch: geneSearchMiddleware,
+    };
+
     // LisGeneSearchElement
     geneSearchFormData = geneSearchFormData;
     geneSearchFormDataFactory = (): typeof geneSearchFormData => {
       return (...args) => this.geneSearchFormData(...args);
     };
     geneSearchFunction = geneSearchFunction;
-    geneSearchFunctionFactory = (): typeof geneSearchFunction => {
-      return (...args) => this.geneSearchFunction(...args);
+    geneSearchFunctionFactory = (
+      ...middleware: GeneSearchMiddleware[]
+    ): typeof geneSearchFunction => {
+      return (...args) => {
+        let promise = this.geneSearchFunction(...args);
+        middleware.forEach((m) => {
+          promise = promise.then(m);
+        });
+        return promise;
+      };
     };
 
     // LisLinkoutElement
