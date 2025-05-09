@@ -5,7 +5,8 @@ import {
   LisGeneSearchOptions,
   LisGeneSearchResults,
 } from '@legumeinfo/web-components';
-import {GraphqlResponse} from '../../graphql';
+import {LisGraphqlResponse, LisGraphql} from '../../graphql';
+import {GeneSearchMiddleware} from './middleware';
 
 /** The GraphQL query used to get organisms for the search form. */
 const getOrganismsQuery = `
@@ -41,7 +42,7 @@ type GetOrganismsData = {
 
 /**
  * Shims GraphQL `GetOrganismsData` into `LisGeneSearchFormData`.
- * @param {GetOrganismsData} data - The data portion of the `GraphqlResponse` for the `getOrganismsQuery`.
+ * @param {GetOrganismsData} data - The data portion of the `LisGraphqlResponse` for the `getOrganismsQuery`.
  * @returns {LisGeneSearchFormData} The data to be used by the `LisGeneSearchElement` Web Component.
  */
 function organismsDataToFormData(
@@ -88,7 +89,7 @@ function organismsDataToFormData(
  * @param {LisGeneSearchFormDataOptions} options - `LisGeneSearchFormDataFunction` options.
  * @returns {Promise<LisGeneSearchFormData>} A `Promise` that resolves to `LisGeneSearchFormData`.
  */
-export function geneSearchFormData(
+export function formDataFunction(
   options: LisGeneSearchFormDataOptions = {},
 ): Promise<LisGeneSearchFormData> {
   const {abortSignal} = options;
@@ -97,7 +98,7 @@ export function geneSearchFormData(
     getOrganismsQuery,
     {},
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetOrganismsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetOrganismsData>) =>
     organismsDataToFormData(data),
   );
 }
@@ -173,7 +174,7 @@ type SearchGenesData = {
 
 /**
  * Shims GraphQL `SearchGenesData` into `LisGeneSearchResults`.
- * @param {SearchGenesData} data - The data portional of the `GraphqlResponse` for the `searchGenesQuery`.
+ * @param {SearchGenesData} data - The data portional of the `LisGraphqlResponse` for the `searchGenesQuery`.
  * @returns {LisGeneSearchResults} The data to be used by the `LisGeneSearchElement` Web Component.
  */
 function genesDataToSearchResults(data: SearchGenesData): LisGeneSearchResults {
@@ -226,7 +227,7 @@ function genesDataToSearchResults(data: SearchGenesData): LisGeneSearchResults {
  * @param {LisGeneSearchOptions} options - `LisGeneSearchFunction` options.
  * @returns {Promise<LisGeneSearchResults>} A `Promise` that resolves to `LisGeneSearchResults`.
  */
-export function geneSearchFunction(
+export function searchFunction(
   queryData: LisGeneSearchData,
   options: LisGeneSearchOptions = {},
 ): Promise<LisGeneSearchResults> {
@@ -237,7 +238,39 @@ export function geneSearchFunction(
     searchGenesQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<SearchGenesData>) =>
+  ).then(({data}: LisGraphqlResponse<SearchGenesData>) =>
     genesDataToSearchResults(data),
   );
 }
+
+/** The type of the object returned by `geneSearchQueriesFactory`. */
+export type GeneSearchQueries = {
+  formDataFunction: typeof formDataFunction;
+  formDataFunctionFactory: () => typeof formDataFunction;
+  searchFunction: typeof searchFunction;
+  searchFunctionFactory: (
+    ...args: GeneSearchMiddleware[]
+  ) => typeof searchFunction;
+};
+
+/** The geneSearch portion of `LisGraphqlWebComponents.queries`. */
+export const geneSearchQueriesFactory = <T extends LisGraphql>(context: T) => {
+  return {
+    formDataFunction: formDataFunction.bind(context),
+    formDataFunctionFactory: function (): typeof formDataFunction {
+      return (...args) => this.formDataFunction(...args);
+    },
+    searchFunction: searchFunction.bind(context),
+    searchFunctionFactory: function (
+      ...middleware: GeneSearchMiddleware[]
+    ): typeof searchFunction {
+      return (...args) => {
+        let promise = this.searchFunction(...args);
+        middleware.forEach((m) => {
+          promise = promise.then(m);
+        });
+        return promise;
+      };
+    },
+  };
+};

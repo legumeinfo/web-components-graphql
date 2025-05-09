@@ -1,5 +1,5 @@
 import {LisLinkoutOptions, LisLinkoutResults} from '@legumeinfo/web-components';
-import {GraphqlResponse} from '../../graphql';
+import {LisGraphqlResponse, LisGraphql} from '../../graphql';
 
 /** The GraphQL linkout results type returned for all linkout queries. */
 type LinkoutDataResults = [
@@ -30,7 +30,7 @@ type GetGeneLinkoutsData = {
 
 /**
  * Shims GraphQL `GetGeneLinkoutsData` into `LisLinkoutResults`.
- * @param {GetGeneLinkoutsData} data - The data portional of the `GraphqlResponse` for the `getGeneLinkoutsQuery.
+ * @param {GetGeneLinkoutsData} data - The data portional of the `LisGraphqlResponse` for the `getGeneLinkoutsQuery.
  * @returns {LisLinkoutResults} The data to be used by the `LisLinkoutElement` Web Component.
  */
 function geneLinkoutsToLinkoutResults(
@@ -62,7 +62,7 @@ export function linkoutFunctionGene(
     getGeneLinkoutsQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetGeneLinkoutsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetGeneLinkoutsData>) =>
     geneLinkoutsToLinkoutResults(data),
   );
 }
@@ -88,7 +88,7 @@ type GetLocationLinkoutsData = {
 
 /**
  * Shims GraphQL `GetLocationLinkoutsData` into `LisLinkoutResults`.
- * @param {GetLocationLinkoutsData} data - The data portional of the `GraphqlResponse` for the `getLocationLinkoutsQuery`.
+ * @param {GetLocationLinkoutsData} data - The data portional of the `LisGraphqlResponse` for the `getLocationLinkoutsQuery`.
  * @returns {LisLinkoutResults} The data to be used by the `LisLinkoutElement` Web Component.
  */
 function locationLinkoutsToLinkoutResults(
@@ -124,7 +124,7 @@ export function linkoutFunctionLocation(
     getLocationLinkoutsQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetLocationLinkoutsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetLocationLinkoutsData>) =>
     locationLinkoutsToLinkoutResults(data),
   );
 }
@@ -150,7 +150,7 @@ type GetGeneFamilyLinkoutsData = {
 
 /**
  * Shims GraphQL `GetGeneFamilyLinkoutsData` into `LisLinkoutResults`.
- * @param {GetGeneFamilyLinkoutsData} data - The data portional of the `GraphqlResponse` for the `getGeneFamilyLinkoutsQuery`.
+ * @param {GetGeneFamilyLinkoutsData} data - The data portional of the `LisGraphqlResponse` for the `getGeneFamilyLinkoutsQuery`.
  * @returns {LisLinkoutResults} The data to be used by the `LisLinkoutElement` Web Component.
  */
 function geneFamilyLinkoutsToLinkoutResults(
@@ -182,7 +182,7 @@ export function linkoutFunctionGeneFamily(
     getGeneFamilyLinkoutsQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetGeneFamilyLinkoutsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetGeneFamilyLinkoutsData>) =>
     geneFamilyLinkoutsToLinkoutResults(data),
   );
 }
@@ -208,7 +208,7 @@ type GetPanGeneSetLinkoutsData = {
 
 /**
  * Shims GraphQL `GetPanGeneSetLinkoutsData` into `LisLinkoutResults`.
- * @param {GetPanGeneSetLinkoutsData} data - The data portional of the `GraphqlResponse` for the `getPanGeneSetLinkoutsQuery`.
+ * @param {GetPanGeneSetLinkoutsData} data - The data portional of the `LisGraphqlResponse` for the `getPanGeneSetLinkoutsQuery`.
  * @returns {LisLinkoutResults} The data to be used by the `LisLinkoutElement` Web Component.
  */
 function panGeneSetLinkoutsToLinkoutResults(
@@ -240,7 +240,7 @@ export function linkoutFunctionPanGeneSet(
     getPanGeneSetLinkoutsQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetPanGeneSetLinkoutsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetPanGeneSetLinkoutsData>) =>
     panGeneSetLinkoutsToLinkoutResults(data),
   );
 }
@@ -266,7 +266,7 @@ type GetGwasLinkoutsData = {
 
 /**
  * Shims GraphQL `GetGwasLinkoutsData` into `LisLinkoutResults`.
- * @param {GetGwasLinkoutsData} data - The data portional of the `GraphqlResponse` for the `getGwasLinkoutsQuery`.
+ * @param {GetGwasLinkoutsData} data - The data portional of the `LisGraphqlResponse` for the `getGwasLinkoutsQuery`.
  * @returns {LisLinkoutResults} The data to be used by the `LisLinkoutElement` Web Component.
  */
 function gwasLinkoutsToLinkoutResults(
@@ -298,7 +298,7 @@ export function linkoutFunctionGwas(
     getGwasLinkoutsQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetGwasLinkoutsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetGwasLinkoutsData>) =>
     gwasLinkoutsToLinkoutResults(data),
   );
 }
@@ -324,7 +324,7 @@ type GetQtlStudyLinkoutsData = {
 
 /**
  * Shims GraphQL `GetQtlStudyLinkoutsData` into `LisLinkoutResults`.
- * @param {GetQtlStudyLinkoutsData} data - The data portional of the `GraphqlResponse` for the `getQtlStudyLinkoutsQuery`.
+ * @param {GetQtlStudyLinkoutsData} data - The data portional of the `LisGraphqlResponse` for the `getQtlStudyLinkoutsQuery`.
  * @returns {LisLinkoutResults} The data to be used by the `LisLinkoutElement` Web Component.
  */
 function qtlStudyLinkoutsToLinkoutResults(
@@ -356,7 +356,7 @@ export function linkoutFunctionQtlStudy(
     getQtlStudyLinkoutsQuery,
     variables,
     abortSignal,
-  ).then(({data}: GraphqlResponse<GetQtlStudyLinkoutsData>) =>
+  ).then(({data}: LisGraphqlResponse<GetQtlStudyLinkoutsData>) =>
     qtlStudyLinkoutsToLinkoutResults(data),
   );
 }
@@ -384,22 +384,78 @@ export function linkoutFunction(
   switch (type) {
     case 'gene':
       // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
-      return this.linkoutFunctionGene(linkoutData, options);
+      return linkoutFunctionGene.call(this, linkoutData, options);
     case 'location':
       // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
-      return this.linkoutFunctionLocation(linkoutData, options);
+      return linkoutFunctionLocation.call(this, linkoutData, options);
     case 'geneFamily':
       // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
-      return this.linkoutFunctionGeneFamily(linkoutData, options);
+      return linkoutFunctionGeneFamily.call(this, linkoutData, options);
     case 'panGeneSet':
       // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
-      return this.linkoutFunctionPanGeneSet(linkoutData, options);
+      return linkoutFunctionPanGeneSet.call(this, linkoutData, options);
     case 'gwas':
       // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
-      return this.linkoutFunctionGwas(linkoutData, options);
+      return linkoutFunctionGwas.call(this, linkoutData, options);
     case 'qtlStudy':
       // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
-      return this.linkoutFunctionQtlStudy(linkoutData, options);
+      return linkoutFunctionQtlStudy.call(this, linkoutData, options);
   }
   return Promise.reject();
 }
+
+/** The type of the object returned by `linkoutQueriesFactory`. */
+export type LinkoutQueries = {
+  linkoutFunction: typeof linkoutFunction;
+  linkoutFunctionFactory: () => typeof linkoutFunction;
+  linkoutFunctionGene: typeof linkoutFunctionGene;
+  linkoutFunctionGeneFactory: () => typeof linkoutFunctionGene;
+  linkoutFunctionGeneFamily: typeof linkoutFunctionGeneFamily;
+  linkoutFunctionGeneFamilyFactory: () => typeof linkoutFunctionGeneFamily;
+  linkoutFunctionGwas: typeof linkoutFunctionGwas;
+  linkoutFunctionGwasFactory: () => typeof linkoutFunctionGwas;
+  linkoutFunctionLocation: typeof linkoutFunctionLocation;
+  linkoutFunctionLocationFactory: () => typeof linkoutFunctionLocation;
+  linkoutFunctionPanGeneSet: typeof linkoutFunctionPanGeneSet;
+  linkoutFunctionPanGeneSetFactory: () => typeof linkoutFunctionPanGeneSet;
+  linkoutFunctionQtlStudy: typeof linkoutFunctionQtlStudy;
+  linkoutFunctionQtlStudyFactory: () => typeof linkoutFunctionQtlStudy;
+};
+
+/** The linkout portion of `LisGraphqlWebComponents.queries`. */
+export const linkoutQueriesFactory = <T extends LisGraphql>(context: T) => {
+  return {
+    linkoutFunction: linkoutFunction.bind(context),
+    linkoutFunctionFactory: function (): typeof linkoutFunction {
+      return (...args) => this.linkoutFunction(...args);
+    },
+    linkoutFunctionGene: linkoutFunctionGene.bind(context),
+    linkoutFunctionGeneFactory: function (): typeof linkoutFunctionGene {
+      return (...args) => this.linkoutFunctionGene(...args);
+    },
+    linkoutFunctionGeneFamily: linkoutFunctionGeneFamily.bind(context),
+    linkoutFunctionGeneFamilyFactory:
+      function (): typeof linkoutFunctionGeneFamily {
+        return (...args) => this.linkoutFunctionGeneFamily(...args);
+      },
+    linkoutFunctionGwas: linkoutFunctionGwas.bind(context),
+    linkoutFunctionGwasFactory: function (): typeof linkoutFunctionGwas {
+      return (...args) => this.linkoutFunctionGwas(...args);
+    },
+    linkoutFunctionLocation: linkoutFunctionLocation.bind(context),
+    linkoutFunctionLocationFactory:
+      function (): typeof linkoutFunctionLocation {
+        return (...args) => this.linkoutFunctionLocation(...args);
+      },
+    linkoutFunctionPanGeneSet: linkoutFunctionPanGeneSet.bind(context),
+    linkoutFunctionPanGeneSetFactory:
+      function (): typeof linkoutFunctionPanGeneSet {
+        return (...args) => this.linkoutFunctionPanGeneSet(...args);
+      },
+    linkoutFunctionQtlStudy: linkoutFunctionQtlStudy.bind(context),
+    linkoutFunctionQtlStudyFactory:
+      function (): typeof linkoutFunctionQtlStudy {
+        return (...args) => this.linkoutFunctionQtlStudy(...args);
+      },
+  };
+};

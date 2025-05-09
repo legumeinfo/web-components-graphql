@@ -49,23 +49,23 @@
 
       // bind the form data function
       const geneSearchElement = document.getElementById('gene-search');
-      geneSearchElement.formDataFunction = graphql.geneSearchFormDataFactory();
+      geneSearchElement.formDataFunction = graphql.queries.geneSearch.formDataFunctionFactory();
 
       // bind the search function with middleware
       //const modalId = 'test';
       //const middleware = [
-      //    LisGraphqlWebComponents.middleware.geneSearch.geneIdentifierModalLinkFactory(modalId),
-      //    LisGraphqlWebComponents.middleware.geneSearch.locationModalLinkFactory(modalId),
-      //    LisGraphqlWebComponents.middleware.geneSearch.geneFamilyAssignmentsModalLinkFactory(modalId),
-      //    LisGraphqlWebComponents.middleware.geneSearch.panGeneSetsModalLinkFactory(modalId),
+      //    graphql.middleware.geneSearch.geneIdentifierModalLinkFactory(modalId),
+      //    graphql.middleware.geneSearch.locationModalLinkFactory(modalId),
+      //    graphql.middleware.geneSearch.geneFamilyAssignmentsModalLinkFactory(modalId),
+      //    graphql.middleware.geneSearch.panGeneSetsModalLinkFactory(modalId),
       //  ];
       const middleware = 
-          LisGraphqlWebComponents.middleware.geneSearch.allModalLinksFactory('modal');
-      geneSearchElement.searchFunction = graphql.geneSearchFunctionFactory(...middleware);
+          graphql.middleware.geneSearch.allModalLinksFactory('modal');
+      geneSearchElement.searchFunction = graphql.queries.geneSearch.searchFunctionFactory(...middleware);
 
       // bind the linkout function
       const linkoutElement = document.getElementById('linkouts');
-      linkoutElement.linkoutFunction = graphql.linkoutFunctionFactory();
+      linkoutElement.linkoutFunction = graphql.queries.linkout.linkoutFunctionFactory();
 
       // wait for the modal slot to load before adding an event listener
       window.onload = (event) => {

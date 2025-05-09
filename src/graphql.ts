@@ -1,5 +1,5 @@
 /** The type of response returned by all GraphQL requests. */
-export type GraphqlResponse<T> = {
+export type LisGraphqlResponse<T> = {
   data: T;
   errors?: string[];
 };
@@ -12,14 +12,14 @@ export type GraphqlResponse<T> = {
  * @param {string} query - The GraphQL query.
  * @param {object} variables - The variables for the query.
  * @param {abortSignal} AbortSignal - An AbortSignal object that can cancel the request.
- * @returns {Promise<GraphqlResponse<T>>} A `Promise` that resolves to a `GraphqlResponse` object.
+ * @returns {Promise<LisGraphqlResponse<T>>} A `Promise` that resolves to a `LisGraphqlResponse` object.
  */
 export function lisGraphqlQuery<T>(
   uri: string,
   query: string,
   variables: object = {},
   abortSignal?: AbortSignal,
-): Promise<GraphqlResponse<T>> {
+): Promise<LisGraphqlResponse<T>> {
   return fetch(uri, {
     method: 'POST',
     headers: {
@@ -61,13 +61,13 @@ export class LisGraphql {
    * @param {string} query - The GraphQL query.
    * @param {object} variables - The variables for the query.
    * @param {abortSignal} AbortSignal - An AbortSignal object that can cancel the request.
-   * @returns {Promise<GraphqlResponse<T>>} A `Promise` that resolves to a `GraphqlResponse` object.
+   * @returns {Promise<LisGraphqlResponse<T>>} A `Promise` that resolves to a `LisGraphqlResponse` object.
    */
   public request<T>(
     query: string,
     variables: object = {},
     abortSignal?: AbortSignal,
-  ): Promise<GraphqlResponse<T>> {
+  ): Promise<LisGraphqlResponse<T>> {
     return lisGraphqlQuery(this.uri, query, variables, abortSignal);
   }
 }
