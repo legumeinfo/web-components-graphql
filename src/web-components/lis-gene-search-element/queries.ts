@@ -253,7 +253,7 @@ export type GeneSearchQueries = {
   ) => typeof searchFunction;
 };
 
-/** The geneSearch portion of `LisGraphqlWebComponents.queries`. */
+/** The geneSearch portion of `LisGraphqlWebComponentsMixin.queries`. */
 export const geneSearchQueriesFactory = <T extends LisGraphql>(context: T) => {
   return {
     formDataFunction: formDataFunction.bind(context),
