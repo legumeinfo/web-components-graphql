@@ -5,6 +5,11 @@ import {
   geneSearchQueriesFactory,
 } from './lis-gene-search-element';
 import {LinkoutQueries, linkoutQueriesFactory} from './lis-linkout-element';
+import {
+  PangeneLookupQueries,
+  //pangeneLookupMiddleware,
+  pangeneLookupQueriesFactory,
+} from './lis-pangene-lookup-element';
 
 /**
  * A mixin that adds Web Component queries to the `LisGraphql` base class.
@@ -18,9 +23,11 @@ export function LisGraphqlWebComponentsMixin<
     readonly queries: {
       geneSearch: GeneSearchQueries;
       linkout: LinkoutQueries;
+      pangeneLookup: PangeneLookupQueries;
     };
     readonly middleware = {
       geneSearch: geneSearchMiddleware,
+      //pangeneLookup: pangeneLookupMiddleware,
     };
 
     constructor(...rest: any[]) {
@@ -28,6 +35,7 @@ export function LisGraphqlWebComponentsMixin<
       this.queries = {
         geneSearch: geneSearchQueriesFactory(this),
         linkout: linkoutQueriesFactory(this),
+        pangeneLookup: pangeneLookupQueriesFactory(this),
       };
     }
   };
