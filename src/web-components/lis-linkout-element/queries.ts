@@ -422,7 +422,7 @@ export type LinkoutQueries = {
   linkoutFunctionQtlStudyFactory: () => typeof linkoutFunctionQtlStudy;
 };
 
-/** The linkout portion of `LisGraphqlWebComponents.queries`. */
+/** The linkout portion of `LisGraphqlWebComponentsMixin.queries`. */
 export const linkoutQueriesFactory = <T extends LisGraphql>(context: T) => {
   return {
     linkoutFunction: linkoutFunction.bind(context),
