@@ -9,7 +9,6 @@ const commands = [
   'npm install --only=dev',
   'npm install',
   'npm run build',
-  'npm run bundle',
 ];
 const build_dir = path.resolve('./dep/web-components');
 const options = {cwd: build_dir};
